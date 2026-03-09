@@ -1,6 +1,4 @@
-# Speech and Language Processing
-
-## by Daniel Jurafsky & James H. Martin
+# Speech and Language Processing (Daniel Jurafsky & James H. Martin)
 
 # Chapter 2: Words & Tokens
 
@@ -290,7 +288,7 @@ z=(i=1nwixi)+b
 
 # 
 
-# Slides
+# Rob Voigt Slides
 
 ### Linguistic Structure, NLP “Tasks”, and Annotation
 
