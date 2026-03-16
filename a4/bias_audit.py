@@ -12,13 +12,16 @@ class PMICalculator:
     """Code to read the SNLI corpus and calculate PMI association metrics on it.
     """
     
-    def __init__(self, infile = '/projects/e31408/data/a4/snli_1.0/snli_1.0_dev.jsonl', label_filter=None):
+    def __init__(self,
+                 infile = '/Users/caroclaeson/PycharmProjects/'
+                          'PythonProject/comp_ling_26/comp_ling_26/a4/snli_1.0/snli_1.0_dev.jsonl',
+                 label_filter=None):
         self.infile = infile
         self.label_filter = label_filter # restricts the set of examples to read
 
         # mappings of words to indices of documents in which they appear
-        self.premise_vocab_to_docs = defaultdict(set) 
-        self.hypothesis_vocab_to_docs = defaultdict(set)
+        self.premise_vocab_to_docs = defaultdict(set)  # sentence 1
+        self.hypothesis_vocab_to_docs = defaultdict(set) # sentence 2
         self.n_docs = 0
         self.COUNT_THRESHOLD = 10
         
@@ -67,10 +70,32 @@ class PMICalculator:
         None (modifies self.premise_vocab_to_docs, self.hypothesis_vocab_to_docs, and self.n_docs)
 
         """
-        # >>> YOUR ANSWER HERE
-        pass
-        # >>> END YOUR ANSWER
+        with open(self.infile, encoding="utf-8") as f:
+            for line in f:
+                ex = json.loads(line)
 
+                if self.label_filter is not None and ex['gold_label'] != self.label_filter:
+                    continue
+
+                premise_tokens = set(ex["sentence1_binary_parse"].replace("(", " ").
+                                     replace(")", " ").lower().split())
+                hypothesis_tokens = set(ex["sentence2_binary_parse"].replace("(", " ").
+                                        replace(")", " ").lower().split())
+
+                doc_id = self.n_docs
+                for word in premise_tokens:
+                    self.premise_vocab_to_docs[word].add(doc_id)
+                for word in hypothesis_tokens:
+                    self.hypothesis_vocab_to_docs[word].add(doc_id)
+                self.n_docs += 1
+        self.hypothesis_vocab_to_docs = defaultdict(
+            set,
+            {
+                word: doc_ids
+                for word, doc_ids in self.hypothesis_vocab_to_docs.items()
+                if len(doc_ids) >= self.COUNT_THRESHOLD
+            }
+        )
         
     def pmi(self, word1, word2, cross_analysis=True):
         """
@@ -105,10 +130,20 @@ class PMICalculator:
             The pointwise mutual information between word1 and word2.
         
         """
+        word1, word2 = word1.lower(), word2.lower()
+        if cross_analysis:
+            # if word exists, gives docu ids, if not then empty set
+            docs_word1 = self.premise_vocab_to_docs.get(word1, set())
+        else:
+            docs_word1 = self.hypothesis_vocab_to_docs.get(word1, set())
+        docs_word2 = self.hypothesis_vocab_to_docs.get(word2, set())
+        num = self.n_docs * len(docs_word1.intersection(docs_word2))
+        deno = len(docs_word1) * len(docs_word2)
+        if num == 0 or deno == 0:
+            return 0
+        pmi = math.log2(num / deno)
 
-        # >>> YOUR ANSWER HERE
-        return 0.0
-        # >>> END YOUR ANSWER 
+        return pmi
 
     def print_top_associations(self, target, n=10, cross_analysis=True):
         """
@@ -121,7 +156,7 @@ class PMICalculator:
         Calculate PMI for each relative to the target, and print out the top n
         words with the highest values.
         """
-        # >>> YOUR ANSWER HERE
+
         pass
         # >>> END YOUR ANSWER 
     

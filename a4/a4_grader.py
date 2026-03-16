@@ -4,9 +4,11 @@ from bias_audit import PMICalculator
 
 errs = 0
 print("Reading the corpora...")
-all_labels_dev = PMICalculator(infile = '/projects/e31408/data/a4/snli_1.0/snli_1.0_dev.jsonl')
+all_labels_dev = PMICalculator(infile = '/Users/caroclaeson/PycharmProjects/'
+                          'PythonProject/comp_ling_26/comp_ling_26/a4/snli_1.0/snli_1.0_dev.jsonl')
 
-contra_dev = PMICalculator(infile = '/projects/e31408/data/a4/snli_1.0/snli_1.0_dev.jsonl', label_filter='contradiction')
+contra_dev = PMICalculator(infile = '/Users/caroclaeson/PycharmProjects/'
+                          'PythonProject/comp_ling_26/comp_ling_26/a4/snli_1.0/snli_1.0_dev.jsonl', label_filter='contradiction')
 
 print("Running preprocessing...")
 all_labels_dev.preprocess()

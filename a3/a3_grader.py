@@ -77,7 +77,7 @@ except AssertionError:
     print(f'\tgot P~{precision}, R~{recall}, F1~{f1_score}')
 
 print('Checking evaluation on the test set...')
-precision, recall, f1_score = clf.evaluate(test_dir = '/Users/caroclaeson/PycharmProjects/compling/a3/haiti_test', target = 'relevant')
+precision, recall, f1_score = clf.evaluate(test_dir = '/Users/caroclaeson/PycharmProjects/PythonProject/comp_ling_26/comp_ling_26/a3/haiti_test', target = 'relevant')
 try:
     assert math.fabs(precision - 0.8466899) < 0.01 or math.fabs(precision - 0.795349) < 0.01
     assert math.fabs(recall - 0.9455252918) < 0.01 or math.fabs(recall - 0.9243243) < 0.01
