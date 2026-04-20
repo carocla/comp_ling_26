@@ -1,0 +1,203 @@
+for model set 2
+=== Corpus A Cosine Distribution ===
+Mean cosine similarity: 0.1972
+
+=== Corpus B Cosine Distribution ===
+Mean cosine similarity: 0.1918
+Corpus A - Sword & Blade: 0.6203752
+Corpus A - Sword & Apple: 0.12739374
+Corpus B - Sword & Blade: 0.8396002
+Corpus B - Sword & Apple: 0.28183722
+
+=== Model A Analogy: King - Man + Woman ===
+myriad: 0.4773
+court: 0.4704
+daddy: 0.4597
+quan: 0.4564
+wolf: 0.4551
+aurmir: 0.4489
+inheritance: 0.4279
+flegrea: 0.4222
+beast: 0.4185
+empire: 0.4144
+
+=== Model B Analogy: King - Man + Woman ===
+felipe: 0.5667
+iii: 0.5419
+princess: 0.5152
+levin: 0.5145
+norman: 0.5128
+figurative: 0.5102
+hellios: 0.5093
+induen: 0.5028
+liege: 0.4989
+statuesque: 0.4968
+
+=======================================================
+  WORD: 'HEAVEN'
+  Axis: [cosmic] <-----> [literal]
+=======================================================
+
+  Corpus A (translated):
+    cosmic               score: 0.3647
+    literal              score: 0.2887
+    difference:          +0.0760
+    --> leans [cosmic]  (strength: 0.0760)
+    top neighbors: ['earth', 'defy', 'tome', 'dao', 'benefaction']
+
+  Corpus B (original):
+    cosmic               score: 0.2460
+    literal              score: 0.3919
+    difference:          -0.1459
+    --> leans [literal]  (strength: 0.1459)
+    top neighbors: ['palace', 'chain', 'sataistador', 'sunlit', 'axis']
+
+  AXIS SHIFT (A minus B): +0.2219
+  --> Corpus A pulls 'heaven' more toward [cosmic]
+
+=======================================================
+  WORD: 'FATE'
+  Axis: [cosmic mandate] <-----> [personal fate]
+=======================================================
+
+  Corpus A (translated):
+    cosmic mandate       score: 0.4582
+    personal fate        score: 0.3092
+    difference:          +0.1490
+    --> leans [cosmic mandate]  (strength: 0.1490)
+    top neighbors: ['baneful', 'starry', 'devourer', 'unchangeable', 'dictate']
+
+  Corpus B (original):
+    cosmic mandate       score: 0.3537
+    personal fate        score: 0.3553
+    difference:          -0.0016
+    --> leans [personal fate]  (strength: 0.0016)
+    top neighbors: ['destine', 'slave', 'weaver', 'daemon', 'tapestry']
+
+  AXIS SHIFT (A minus B): +0.1506
+  --> Corpus A pulls 'fate' more toward [cosmic mandate]
+
+=======================================================
+  WORD: 'HEART'
+  Axis: [spiritual] <-----> [physical]
+=======================================================
+
+  Corpus A (translated):
+    spiritual            score: 0.4006
+    physical             score: 0.3152
+    difference:          +0.0854
+    --> leans [spiritual]  (strength: 0.0854)
+    top neighbors: ['powerlessness', 'irrepressible', 'jealousy', 'fear', 'hatred']
+
+  Corpus B (original):
+    spiritual            score: 0.3231
+    physical             score: 0.3517
+    difference:          -0.0286
+    --> leans [physical]  (strength: 0.0286)
+    top neighbors: ['beat', 'beating', 'swan', 'pounding', 'dread']
+
+  AXIS SHIFT (A minus B): +0.1139
+  --> Corpus A pulls 'heart' more toward [spiritual]
+
+=======================================================
+  WORD: 'FACE'
+  Axis: [social] <-----> [physical]
+=======================================================
+
+  Corpus A (translated):
+    social               score: 0.2091
+    physical             score: 0.5835
+    difference:          -0.3744
+    --> leans [physical]  (strength: 0.3744)
+    top neighbors: ['pale', 'pallid', 'complexion', 'grim', 'graver']
+
+  Corpus B (original):
+    social               score: 0.0989
+    physical             score: 0.5325
+    difference:          -0.4336
+    --> leans [physical]  (strength: 0.4336)
+    top neighbors: ['contort', 'pale', 'dazzlingly', 'rueful', 'evilly']
+
+  AXIS SHIFT (A minus B): +0.0592
+  --> Corpus A pulls 'face' more toward [social]
+
+=======================================================
+  WORD: 'BROTHER'
+  Axis: [sworn/chosen] <-----> [familial]
+=======================================================
+
+  Corpus A (translated):
+    sworn/chosen         score: 0.3470
+    familial             score: 0.3666
+    difference:          -0.0196
+    --> leans [familial]  (strength: 0.0196)
+    top neighbors: ['junior', 'senior', 'elder', 'eldest', 'younger']
+
+  Corpus B (original):
+    sworn/chosen         score: 0.2440
+    familial             score: 0.4604
+    difference:          -0.2164
+    --> leans [familial]  (strength: 0.2164)
+    top neighbors: ['father', 'treason', 'lieselotte', 'eldest', 'son']
+
+  AXIS SHIFT (A minus B): +0.1968
+  --> Corpus A pulls 'brother' more toward [sworn/chosen]
+
+=======================================================
+  WORD: 'IMMORTAL'
+  Axis: [ascension] <-----> [mortality]
+=======================================================
+
+  Corpus A (translated):
+    ascension            score: 0.2995
+    mortality            score: 0.2778
+    difference:          +0.0217
+    --> leans [ascension]  (strength: 0.0217)
+    top neighbors: ['cave', 'fixed', 'blessed', 'venerable', 'bless']
+
+  Corpus B (original):
+    ascension            score: 0.3015
+    mortality            score: 0.4109
+    difference:          -0.1094
+    --> leans [mortality]  (strength: 0.1094)
+    top neighbors: ['heiress', 'destine', 'legendary', 'clan', 'vendetta']
+
+  AXIS SHIFT (A minus B): +0.1311
+  --> Corpus A pulls 'immortal' more toward [ascension]
+
+=======================================================
+  WORD: 'PILL'
+  Axis: [spiritual] <-----> [medicinal]
+=======================================================
+
+  Corpus A (translated):
+    spiritual            score: 0.3833
+    medicinal            score: 0.1648
+    difference:          +0.2185
+    --> leans [spiritual]  (strength: 0.2185)
+    top neighbors: ['medicinal', 'concoct', 'alchemist', 'bedevilment', 'division']
+
+  Corpus B (original):
+    spiritual            score: 0.1178
+    medicinal            score: 0.2081
+    difference:          -0.0903
+    --> leans [medicinal]  (strength: 0.0903)
+    top neighbors: ['powdered', 'carton', 'yeast', 'plastic', 'bottle']
+
+  AXIS SHIFT (A minus B): +0.3088
+  --> Corpus A pulls 'pill' more toward [spiritual]
+
+
+=======================================================
+  SUMMARY — axis lean by corpus
+=======================================================
+  word         A leans              B leans                 shift
+  ----------------------------------------------------------
+  heaven       cosmic               literal               +0.2219
+  fate         cosmic mandate       personal fate         +0.1506
+  heart        spiritual            physical              +0.1139
+  face         physical             physical              +0.0592
+  brother      familial             familial              +0.1968
+  immortal     ascension            mortality             +0.1311
+  pill         spiritual            medicinal             +0.3088
+Saved results to results/axis_results.json

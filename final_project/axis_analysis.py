@@ -3,19 +3,27 @@ from gensim.models import Word2Vec
 import json
 from axes_config import axes
 import os
+model_a = Word2Vec.load("models/model_a_2.w2v")
+model_b = Word2Vec.load("models/model_b_2.w2v")
 
-model_a = Word2Vec.load("models/model_a.w2v")
-model_b = Word2Vec.load("models/model_b.w2v")
+def axis_quality_check(model, axes, name):
+    print(f"\n=== {name} AXIS QUALITY CHECK ===")
 
-def neighbor_diagnostic(model, name):
-    print(f"\n=== {name} Neighbors ===")
+    for name, config in axes.items():
+        valid_p1 = [w for w in config["pole1"] if w in model.wv]
+        valid_p2 = [w for w in config["pole2"] if w in model.wv]
+        missing_p1 = [w for w in config["pole1"] if w not in model.wv]
+        missing_p2 = [w for w in config["pole2"] if w not in model.wv]
 
-    test_words = ["heaven", "death", "king", "body"]
+        if len(valid_p1) < 2 or len(valid_p2) < 2:
+            print(f"{name}: ⚠️ weak (too many missing anchors)")
+        else:
+            print(f"{name}: OK ({len(valid_p1)} vs {len(valid_p2)} anchors)")
 
-    for w in test_words:
-        if w in model.wv:
-            sims = model.wv.most_similar(w, topn=5)
-            print(f"{w:>8} → {[x[0] for x in sims]}")
+        if missing_p1:
+            print(f"    -> Missing from pole1: {', '.join(missing_p1)}")
+        if missing_p2:
+            print(f"    -> Missing from pole2: {', '.join(missing_p2)}")
 
 def cosine_diagnostic(model, name):
     print(f"\n=== {name} Cosine Distribution ===")
@@ -29,28 +37,32 @@ def cosine_diagnostic(model, name):
     mean_sim = np.mean(sims)
     print(f"Mean cosine similarity: {mean_sim:.4f}")
 
-def axis_quality_check(model, axes):
-    print("\n=== AXIS QUALITY CHECK ===")
-
-    for name, config in axes.items():
-        valid_p1 = [w for w in config["pole1"] if w in model.wv]
-        valid_p2 = [w for w in config["pole2"] if w in model.wv]
-
-        if len(valid_p1) < 2 or len(valid_p2) < 2:
-            print(f"{name}: ⚠️ weak (too many missing anchors)")
-        else:
-            print(f"{name}: OK ({len(valid_p1)} vs {len(valid_p2)} anchors)")
-
 # --- diagnostics ---
-
-neighbor_diagnostic(model_a, "Corpus A")
-neighbor_diagnostic(model_b, "Corpus B")
-
 cosine_diagnostic(model_a, "Corpus A")
 cosine_diagnostic(model_b, "Corpus B")
 
-axis_quality_check(model_a, axes)
-axis_quality_check(model_b, axes)
+# axis_quality_check(model_a, axes, "Corpus A")
+# axis_quality_check(model_b, axes, "Corpus B")
+# A quick sanity check
+print("Corpus A - Sword & Blade:", model_a.wv.similarity('sword', 'blade'))
+print("Corpus A - Sword & Apple:", model_a.wv.similarity('sword', 'apple'))
+# A quick sanity check
+print("Corpus B - Sword & Blade:", model_b.wv.similarity('sword', 'blade'))
+print("Corpus B - Sword & Apple:", model_b.wv.similarity('sword', 'apple'))
+
+# Evaluate model_a
+print("\n=== Model A Analogy: King - Man + Woman ===")
+result_a = model_a.wv.most_similar(positive=['king', 'woman'], negative=['man'], topn=10)
+for word, similarity in result_a:
+    print(f"{word}: {similarity:.4f}")
+
+# Evaluate model_b
+print("\n=== Model B Analogy: King - Man + Woman ===")
+result_b = model_b.wv.most_similar(positive=['king', 'woman'], negative=['man'], topn=10)
+for word, similarity in result_b:
+    print(f"{word}: {similarity:.4f}")
+
+
 
 def pole_score(model, word, anchors):
     """Average cosine similarity from word to all available anchor words."""

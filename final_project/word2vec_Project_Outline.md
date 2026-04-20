@@ -58,17 +58,18 @@ a complete, presentable set of findings. Methodology is designed to scale.
 Words chosen for their cultural weight — each carries distinct connotations in Chinese cosmological, social, or philosophical contexts
 that may or may not survive translation intact:
 
-| Word                  | Axis of interest                                             |
-|-----------------------|--------------------------------------------------------------|
-| `heaven`              | cosmic order vs. theological or physical sky                 |
-| `fate`                | cosmic, mandate of heaven vs. personal destiny               |
-| `heart`               | emotional/spiritual core vs. physical organ                  |
-| `face`                | social status and shame vs. physical appearance              |
-| `brother`             | sworn loyalty and chosen kinship vs. literal family relation |
-| `realm`               | spiritual or cosmic domain vs. geographic territory          |
-| `energy`              | spiritual energy vs physical energy                          |
-| `immortal and mortal` | literal human mortality vs ascension/immortality             |
-| `mana vs qi`          |                                                              |
+| Word                  | Axis of interest                                 |
+|-----------------------|--------------------------------------------------|
+| `heaven`              | cosmic order vs. theological or physical sky     |
+| `fate`                | cosmic, mandate of heaven vs. personal destiny   |
+| `heart`               | emotional/spiritual core vs. physical organ      |
+| `face`                | social status/shame vs. physical appearance      |
+| `brother`             | chosen kinship vs. literal family relation       |
+| `immortal and mortal` | literal human mortality vs ascension/immortality |
+| `power`               | individual ascension vs institutional authority  |
+| `pill`                | medicinal vs spiritual                           |
+
+
 
 
 
@@ -156,6 +157,7 @@ for selected words, written report and presentation(?).
 Expand corpus size; add machine-translated Chinese fiction as a third condition to isolate translation method as a variable;
 explore vector space alignment methods for more direct cross-model comparison; consider submission to a venue such as the 
 ACL Student Research Workshop.
+** submit to OUR journal? oregon undergrad research
 
 
 ## Notes

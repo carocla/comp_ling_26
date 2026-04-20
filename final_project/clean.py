@@ -21,6 +21,7 @@ RE_SUFFIXES = re.compile(r"'(ve|d|ll|re|m|t|s)\b")
 RE_DIGITS = re.compile(r"[\d%]")
 RE_WORDS = re.compile(r"\b[a-z]+\b")
 RE_SENTENCE = re.compile(r"[.!?]")
+RE_AHH = re.compile(r"ah+")
 
 def get_wordnet_pos(tag):
     if tag.startswith('V'): return wordnet.VERB
@@ -76,7 +77,11 @@ manual_replacements = {
     'cultivation':'cultivate',
     'cultivating':'cultivate',
     'die':'death',
-    'dead':'death'
+    'dead':'death',
+    'refinement':'refine',
+    'bro':'brother',
+    'mom':'mother',
+    'medicinal':'medicine',
 }
 
 # --- Main Function ---
@@ -113,6 +118,7 @@ def process_file(args):
             line = RE_NT.sub("", line)
             line = RE_SUFFIXES.sub("", line)
             line = RE_DIGITS.sub("", line)
+            line = RE_AHH.sub("", line)
             line = line.replace("-", " ")
 
             sentences = RE_SENTENCE.split(line)
@@ -123,7 +129,7 @@ def process_file(args):
                 pos_tags = nltk.pos_tag(words)
                 lemmatized = [lemmatizer.lemmatize(w, get_wordnet_pos(tag)) for w, tag in pos_tags]
                 lemmatized = [manual_replacements.get(w, w) for w in lemmatized]
-                final_words = [w for w in lemmatized if (w == 'qi' or len(w) >= 3) and w not in STOPWORDS]
+                final_words = [w for w in lemmatized if len(w) >= 3 and w not in STOPWORDS]
                 if final_words:
                     cleaned_lines.append(' '.join(final_words))
 

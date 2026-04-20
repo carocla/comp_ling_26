@@ -12,12 +12,12 @@ workers = os.cpu_count()
 
 params = {
     "vector_size": 100,
-    "window": 10,       # bumped from 5 — broader context better for semantic/cultural associations
-    "min_count": 5,   # 3M tokens means rare words have enough data to filter decently hard
+    "window": 10,       # bumped from 5 — broader context better for semantic associations
+    "min_count": 10,   # 3M tokens means rare words have enough data to filter decently hard
     "workers": workers,
-    "epochs": 25,      # more passes, more stable embeddings
-    "sg": 1,           # skip-gram better than CBOW for capturing rarer culturally-specific words
-    "negative": 10,    # create false pairs for contrast
+    "epochs": 20,      # more passes, more stable embeddings
+    "sg": 1,           # skip-gram better for small dataset
+    "negative": 5,    # create false pairs for contrast
     "seed": 42,
     "sample": 1e-3
 }
@@ -28,8 +28,9 @@ for name, corpus in [("A", corpus_a), ("B", corpus_b)]:
     model = Word2Vec(corpus, **params)
     print(f"Vocabulary size: {len(model.wv):,} words")
     print(f"Done in {time.time() - start:.1f}s")
-    model.save(f"model_{name.lower()}.w2v")
-    print(f"Model saved as model_{name.lower()}.w2v")
+    model.save(f"model_{name.lower()}_3.w2v")
+    print(f"Model saved as model_{name.lower()}_3.w2v")
+
 
 def cosine_distribution(model):
     words = list(model.wv.key_to_index)[:1000]
