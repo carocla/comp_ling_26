@@ -3,7 +3,7 @@ __pycache__/
 /final_project/
 *.py[codz]
 *$py.class
-
+.DS_Store
 # C extensions
 *.so
 
