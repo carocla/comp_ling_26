@@ -161,7 +161,33 @@ ACL Student Research Workshop.
 
 
 ## Notes
-**Order of Business**
+**Data collection, cleaning, preprocessing**
 1. Find texts in epub format
-2. Convert to txt(s) concatenate if needed
-3. Manual review, add to stopwords list.
+2. Convert epubs to txt
+3. Manual review: add to stopwords list, skip line list, etc.
+4. Clean:
+   * Remove headers, watermarks, maps, book titles, translator notes texts, etc.
+   * Fix contractions, suffixes, exclamations
+5. Lemmatize
+   * Manually replace words that aren't picked up by lemmatizer (i.e. bro -> brother)
+6. Find minimum tokens count, cut all texts at that minimum
+7. Concatenate together all four samples
+
+**Model Training**
+
+Parameters:
+* Vector Size: 100
+* Window: 100
+* Minimum Count: 10
+* Epochs: 20
+* Skip-Gram
+* Negative: 5
+* Sample: 1e-3
+
+**Model Assessment**
+* 
+
+**Analysis**
+
+**Misc notes**
+* originally had energy as a focus word

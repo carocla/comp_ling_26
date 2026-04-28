@@ -6,7 +6,7 @@ axes = {
         "pole2_name": "literal",
         "pole2": ["sky", "death", "pray", "god", "hell"],
     },
-    "fate": {
+    "fate": { # destiny == fate
         "pole1_name": "cosmic mandate",
         "pole1": ["destiny", "heaven", "twist", "defy"],
         "pole2_name": "personal fate",
@@ -22,7 +22,7 @@ axes = {
         "pole1_name": "social",
         "pole1": ["shame", "honor", "lose", "gain", "status"],
         "pole2_name": "physical",
-        "pole2": ["smile", "expression", "cry", "eye", "look"],
+        "pole2": ["smile", "expression", "cry", "side", "orientation"],
     },
     "brother": {
         "pole1_name": "sworn/chosen",

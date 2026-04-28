@@ -205,10 +205,3 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-
-final_project/visualization.py
-final_project/findwords.py
-models/model_a.w2v
-models/model_b.w2v
-models/model_a_og.w2v
-models/model_b_og.w2v

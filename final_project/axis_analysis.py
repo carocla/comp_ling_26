@@ -43,10 +43,9 @@ cosine_diagnostic(model_b, "Corpus B")
 
 # axis_quality_check(model_a, axes, "Corpus A")
 # axis_quality_check(model_b, axes, "Corpus B")
-# A quick sanity check
+
 print("Corpus A - Sword & Blade:", model_a.wv.similarity('sword', 'blade'))
 print("Corpus A - Sword & Apple:", model_a.wv.similarity('sword', 'apple'))
-# A quick sanity check
 print("Corpus B - Sword & Blade:", model_b.wv.similarity('sword', 'blade'))
 print("Corpus B - Sword & Apple:", model_b.wv.similarity('sword', 'apple'))
 
@@ -65,7 +64,7 @@ for word, similarity in result_b:
 
 
 def pole_score(model, word, anchors):
-    """Average cosine similarity from word to all available anchor words."""
+    """Average cosine similarity from word to anchor words."""
     scores = []
     missing = []
     anchors = [a for a in anchors if a in model.wv]

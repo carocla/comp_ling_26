@@ -1,7 +1,5 @@
 # --- Import packages ---
-import glob
 import re
-import os
 import nltk
 from pathlib import Path
 from multiprocessing import Pool
@@ -37,7 +35,7 @@ STOPWORDS = set(get_stopwords("en")) | {
     'seventeen', 'eighteen', 'nineteen', 'twenty', 'thirty', 'forty', 'fifty',
     'sixty', 'seventy', 'eighty', 'ninety', 'hundred', 'thousand', 'million',
     'meter', 'towards', 'upon', 'shall', 'however', 'although', 'also',
-    # Character names / chinese fragments
+    # Character names / chinese characters
     'gu', 'meng', 'fang', 'hao', 'klein', 'yuan', 'chen', 'changsheng',
     'bai', 'chang', 'zhou', 'sheng', 'tang', 'masego', 'luo', 'ning',
     'wang', 'shang', 'akua', 'yue', 'bing', 'tie', 'hei', 'vasquer',
@@ -46,16 +44,17 @@ STOPWORDS = set(get_stopwords("en")) | {
     'ceria', 'galamon','nephis', 'durran', 'orion', 'elenore', 'klbkch',
     'toren', 'cassie','hakram', 'flos', 'callow', 'pisces', 'ridia',
     'simon', 'bakri', 'eliasor', 'bruno', 'mingrui', 'melissa',
-    # Noise / casual stuff
-    'yeah', 'heh', 'tsk', 'huh', 'hmm', 'boom', 'bang',
-    'tephramancy', 'tephramancer', 'tephramancers'
+    # Noises / misc
+    'yeah', 'heh', 'tsk', 'huh', 'hmm', 'boom', 'bang','chapter',
+    'tephramancy', 'tephramancer', 'tephramancers', 'chatper'
 }
-NOPE = ("chapter","(","[","-","*",".","translat","edit",
-        "table of contents","note","epub","author","book",
-        "i shall seal the heavens", "oceanofpdf.com",
-        "skyfarrow", "prologue", "1","2","3","4","5","6","7","8",
-        "9","0", "epilogue", "afterword", "contents", "tn:", "tl:",
-        "political map", "chatper"
+NOPE = (
+    # If a line begins with ..., skip lines until next chapter
+    "(","[","-","*",".","translat","edit", "note", "epub",
+    "table of contents","author","book", "oceanofpdf.com",
+    "i shall seal the heavens", "skyfarrow", "prologue",
+    "1","2","3","4","5","6","7","8", "9","0", "epilogue",
+    "afterword", "contents", "tn:", "tl:", "political map"
 )
 contraction_fixes = {
     "don't": "", "dont": "", "won't": "", "wont": "", "isn't": "", "isnt": "",
@@ -67,6 +66,7 @@ contraction_fixes = {
     "who's": "", "whos": "", "there's": "", "theres": "", "here's": "", "heres": "", "ain't":""
 }
 manual_replacements = {
+    # missed in previous cleanings by lemmatizer
     'heavens': 'heaven',
     'hellgods': 'god',
     'immortality': 'immortal',
@@ -84,36 +84,35 @@ manual_replacements = {
     'medicinal':'medicine',
 }
 
-# --- Main Function ---
 def process_file(args):
     filepath, output_folder = args
     out_dir = Path(output_folder)
     file_path = Path(filepath)
-    output_path = out_dir / file_path.name.replace(".txt", "_clean.txt")
-    skipping_thoughts = False
+    output_path = out_dir / (file_path.stem + "_clean.txt")
+    skip_section = False
 
     cleaned_lines = []
 
     with open(filepath, "r") as infile:
         for line in infile:
             line = line.strip().lower()
-            if not line: continue
-
-            if "translator's thoughts" in line or "note from deathblade" in line:
-                skipping_thoughts = True
+            if not line:
                 continue
-            if skipping_thoughts:
+            if "translator's thoughts" in line or "note from deathblade" in line:
+                skip_section = True
+                continue
+            if skip_section:
                 if line.startswith("chapter"):
-                    skipping_thoughts = False
+                    skip_section = False
                     continue
                 else:
                     continue
             if line.startswith(NOPE) or "http" in line:
+                skip_section = True
                 continue
 
             line = line.replace("’", "'")
             for c, r in contraction_fixes.items(): line = line.replace(c, r)
-
             line = RE_VIOLET.sub("", line)
             line = RE_NT.sub("", line)
             line = RE_SUFFIXES.sub("", line)
@@ -124,30 +123,30 @@ def process_file(args):
             sentences = RE_SENTENCE.split(line)
             for sentence in sentences:
                 words = RE_WORDS.findall(sentence)
-                if not words: continue
+                if not words:
+                    continue
 
                 pos_tags = nltk.pos_tag(words)
                 lemmatized = [lemmatizer.lemmatize(w, get_wordnet_pos(tag)) for w, tag in pos_tags]
                 lemmatized = [manual_replacements.get(w, w) for w in lemmatized]
                 final_words = [w for w in lemmatized if len(w) >= 3 and w not in STOPWORDS]
+
                 if final_words:
                     cleaned_lines.append(' '.join(final_words))
 
     with open(output_path, "w") as outfile:
         outfile.write('\n'.join(cleaned_lines))
-
     return f"Finished {file_path.name}"
 
 # --- Multiprocessing ---
 if __name__ == "__main__":
-    input_dirs = ["Corpus_A_raw", "Corpus_B_raw"]
-    output_dirs = ["Corpus_A_clean", "Corpus_B_clean"]
+    input_dirs = ["corpus_A/samples_A_raw", "corpus_B/samples_B_raw"]
+    output_dirs = ["corpus_A/samples_A_clean", "corpus_B/samples_B_clean"]
 
     for in_dir, out_dir in zip(input_dirs, output_dirs):
-        if not os.path.exists(out_dir): os.makedirs(out_dir)
-        files = glob.glob(os.path.join(in_dir, "*.txt"))
+        Path(out_dir).mkdir(exist_ok=True)
+        files = list(Path(in_dir).glob("*.txt"))
 
-        # This will use all available CPU cores
         with Pool() as pool:
-            results = pool.map(process_file, [(f, out_dir) for f in files])
+            results = pool.starmap(process_file, [(f, out_dir) for f in files])
             for res in results: print(res)
